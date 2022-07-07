@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationDir": "lib/types",
     "target": "esnext",
     "lib": ["esnext", "dom"],
     "strict": true,
