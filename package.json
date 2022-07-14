@@ -15,12 +15,21 @@
   ],
   "scripts": {
     "lint": "eslint {src,tests}/**/*.{ts,js} --no-error-on-unmatched-pattern",
-    "pretty": "prettier --write \"{src,tests}/**/*.{ts,js}\"",
+    "pretty": "prettier -w '{src,tests}/**/*.{ts,js}'",
     "dts": "tsc --emitDeclarationOnly --outDir lib",
     "types": "tsc --noEmit",
     "build": "rimraf lib && node ./esbuild.js && yarn dts",
     "build:prod": "cross-env NODE_ENV=production yarn build",
-    "build:dev": "cross-env NODE_ENV=development yarn build"
+    "build:dev": "cross-env NODE_ENV=development yarn build",
+    "commit": "yarn lint-staged && yarn test",
+    "test": "echo 1"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "yarn pretty",
+      "yarn lint",
+      "yarn types"
+    ]
   },
   "keywords": [
     "mocks",
@@ -57,6 +66,8 @@
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
