@@ -25,7 +25,7 @@
     "test": "echo 1"
   },
   "lint-staged": {
-    "*.{ts,js}": [
+    "{src,tests}/**/*.{ts,js}": [
       "yarn pretty",
       "yarn lint",
       "yarn types"
