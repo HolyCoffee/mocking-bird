@@ -15,10 +15,10 @@ esbuild
   .build({
     color: true,
     entryPoints: ['src/index.ts'],
-    outfile: 'lib/index.js',
+    outdir: 'lib',
     bundle: true,
     platform: 'node',
-    sourcemap: true,
+    sourcemap: !production,
     minify: true,
     target: ['esnext'],
     metafile: true,

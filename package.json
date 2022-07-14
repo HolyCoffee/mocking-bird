@@ -1,22 +1,63 @@
 {
-  "name": "mylib",
+  "name": "mocking-bird",
   "version": "1.0.0",
-  "description": "",
+  "description": "It's a service for generating mock data from typescript interfaces",
+  "homepage": "https://github.com/HolyCoffee/mocking-bird/tree/master#readme",
+  "bugs": {
+    "url": "https://github.com/HolyCoffee/mocking-bird/issues",
+    "email": "fomin.daniil.leonidovich@gmail.com"
+  },
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "scripts": {
-    "ts-types": " tsc --emitDeclarationOnly --outDir lib",
-    "build": "rimraf lib && node ./esbuild.js",
+    "lint": "eslint {src,tests}/**/*.{ts,js} --no-error-on-unmatched-pattern",
+    "pretty": "prettier --write \"{src,tests}/**/*.{ts,js}\"",
+    "dts": "tsc --emitDeclarationOnly --outDir lib",
+    "types": "tsc --noEmit",
+    "build": "rimraf lib && node ./esbuild.js && yarn dts",
     "build:prod": "cross-env NODE_ENV=production yarn build",
     "build:dev": "cross-env NODE_ENV=development yarn build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mocks",
+    "tests",
+    "faker",
+    "data"
+  ],
+  "author": {
+    "name": "Fomin Daniil",
+    "email": "fomin.daniil.leonidovich@gmail.com",
+    "url": "https://github.com/HolyCoffee"
+  },
+  "contributors": [
+    {
+      "name": "Fomin Daniil",
+      "email": "fomin.daniil.leonidovich@gmail.com",
+      "url": "https://github.com/HolyCoffee"
+    },
+    {
+      "name": "Aleksey Antipin",
+      "url": "https://github.com/sirtakidancers"
+    }
+  ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HolyCoffee/mocking-bird"
+  },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.48",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   },
