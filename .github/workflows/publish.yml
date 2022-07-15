@@ -9,8 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Stop process if the branch isn't the master
-        if: endsWith(github.ref, 'dfomin') == false
-        run: exit -1
+        # if: endsWith(github.ref, 'dfomin') == false
+        run: |
+          echo github.ref_name
+          echo ${GITHUB_REF#refs/heads/}
   install-dependencies:
     name: install-dependencies
     needs: pre
