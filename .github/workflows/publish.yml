@@ -12,7 +12,10 @@ jobs:
         uses: nelonoel/branch-name@v1.0.1
       - name: Stop process if the branch isn't the master
         # if: endsWith(github.ref, 'dfomin') == false
-        run: echo ${BRANCH_NAME}
+        run: |
+          echo github.event.base_ref
+          echo ${github.event.base_ref}
+          echo ${{ github.event.base_ref }}
   install-dependencies:
     name: install-dependencies
     needs: pre
