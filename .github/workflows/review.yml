@@ -56,4 +56,6 @@ jobs:
           path: node_modules
           key: node_modules-${GITHUB_SHA}
       - name: Run unit tests
-        run: yarn test
+        run: |
+          yarn test
+          node ./scripts/log-coverage.js

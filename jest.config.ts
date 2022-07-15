@@ -18,7 +18,7 @@ export default {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,ts}'],
   coverageDirectory: 'coverage',
-  coverageReporters: ['json', 'lcov'],
+  coverageReporters: ['json-summary', 'lcov'],
   coverageThreshold: {
     global: {
       branches: 90,
