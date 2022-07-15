@@ -17,18 +17,17 @@
     "lint": "eslint {src,tests}/**/*.{ts,js} --no-error-on-unmatched-pattern",
     "pretty": "prettier -w '{src,tests}/**/*.{ts,js}'",
     "dts": "tsc --emitDeclarationOnly --outDir lib",
-    "types": "tsc --noEmit",
+    "types": "tsc --project tsconfig.json --noEmit",
     "build": "rimraf lib && node ./esbuild.js && yarn dts",
     "build:prod": "cross-env NODE_ENV=production yarn build",
     "build:dev": "cross-env NODE_ENV=development yarn build",
-    "commit": "yarn lint-staged && yarn test",
-    "test": "echo 1"
+    "commit": "yarn lint-staged && yarn types && yarn test",
+    "test": "jest -c jest.config.ts"
   },
   "lint-staged": {
     "{src,tests}/**/*.{ts,js}": [
       "yarn pretty",
-      "yarn lint",
-      "yarn types"
+      "yarn lint"
     ]
   },
   "keywords": [
@@ -59,18 +58,23 @@
     "url": "https://github.com/HolyCoffee/mocking-bird"
   },
   "devDependencies": {
+    "@types/jest": "27.0.1",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
+    "babel-jest": "26.6.3",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.48",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
+    "jest": "27.2.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "ts-jest": "27.0.5",
+    "ts-node": "9.1.1",
+    "typescript": "4.1.6"
   },
   "dependencies": {}
 }
