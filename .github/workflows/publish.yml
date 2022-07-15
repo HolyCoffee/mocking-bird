@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Stop process if the branch isn't the master
-        if: endsWith(github.event.base_ref, 'dfomin') == false
+        if: endsWith(github.event.base_ref, 'master') == false
         run: exit 1
   install-dependencies:
     name: install-dependencies
@@ -82,6 +82,6 @@ jobs:
           path: package.json
           key: package-${{ github.ref_name }}
       - name: Publish into npm
-        run: |
-          ls -la
-          cat package.json
+        run: yarn publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
