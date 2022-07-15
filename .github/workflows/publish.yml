@@ -39,6 +39,11 @@ jobs:
           key: node_modules-${{ github.ref_name }}
       - name: Build from source
         run: yarn build:prod
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: lib
+          key: lib-${{ github.ref_name }}
   change-package:
     needs: install-dependencies
     name: change-package
@@ -53,8 +58,8 @@ jobs:
           key: node_modules-${{ github.ref_name }}
       - name: Run change package script
         run: |
-          echo $GITHUB_REF
-          TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
+          echo ${GITHUB_REF#refs/tags/}
+          TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
           ls -la
           cat package.json
 
