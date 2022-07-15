@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-${{ $GITHUB_REF }}
+          key: node_modules-$GITHUB_REF
   build:
     name: build
     needs: install-dependencies
@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-${{ $GITHUB_REF }}
+          key: node_modules-$GITHUB_REF
       - name: build from source
         run: yarn build:prod
   change-package:
