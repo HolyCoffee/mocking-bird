@@ -11,6 +11,7 @@ jobs:
       - name: Stop process if the branch isn't the master
         # if: endsWith(github.ref, 'dfomin') == false
         run: |
+          echo ${BRANCH_NAME}
           echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_REF}
   install-dependencies:
