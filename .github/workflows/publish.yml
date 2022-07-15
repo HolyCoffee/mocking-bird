@@ -6,19 +6,20 @@ on:
 jobs:
   .pre:
     name: .pre
-    if: endsWith(github.ref, 'dfomin') == false
-    run: exit -1
+    steps:
+      if: endsWith(github.ref, 'dfomin') == false
+      run: exit -1
   install-dependencies:
     name: install-dependencies
     runs-on: ubuntu-latest
     steps:
-      - run: yarn install --frozen-lockfile
+      run: yarn install --frozen-lockfile
   build:
     name: build
     needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
-      - run: yarn build:prod
+      run: yarn build:prod
   change-package:
     needs: install-dependencies
     name: change-package
