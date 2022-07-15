@@ -19,6 +19,7 @@ jobs:
           path: node_modules
           key: node_modules-${GITHUB_SHA}
   lint:
+    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,6 +32,7 @@ jobs:
       - name: Lint code
         run: yarn lint
   types:
+    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,6 +45,7 @@ jobs:
       - name: Run typechecking
         run: yarn types
   test:
+    needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
