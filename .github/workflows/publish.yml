@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Stop process if the branch isn't the master
+        uses: nelonoel/branch-name@v1.0.1
         # if: endsWith(github.ref, 'dfomin') == false
-        run: |
-          echo ${BRANCH_NAME}
-          echo ${GITHUB_HEAD_REF}
-          echo ${GITHUB_REF}
+        run: echo ${BRANCH_NAME}
   install-dependencies:
     name: install-dependencies
     needs: pre
