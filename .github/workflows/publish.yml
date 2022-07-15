@@ -4,8 +4,8 @@ on:
     tags:
       - '*'
 jobs:
-  .pre:
-    name: .pre
+  pre:
+    name: pre
     runs-on: ubuntu-latest
     steps:
       - name: Stop process if the branch isn't the master
@@ -13,7 +13,7 @@ jobs:
         run: exit -1
   install-dependencies:
     name: install-dependencies
-    needs: .pre
+    needs: pre
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
