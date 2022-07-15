@@ -1,11 +1,13 @@
 name: publish
 on:
   push:
-    branches:
-      - dfomin
     tags:
       - '*'
 jobs:
+  .pre:
+    name: .pre
+    if: endsWith(github.ref, 'dfomin') == false
+    run: exit -1
   install-dependencies:
     name: install-dependencies
     runs-on: ubuntu-latest
