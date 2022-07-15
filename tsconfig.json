@@ -2,12 +2,30 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "lib/types",
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
+    "target": "es5",
+    "lib": ["ES2015", "dom"],
+    "skipLibCheck": true,
     "strict": true,
+    "allowJs": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
+    "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "lib"
-  }
+    "resolveJsonModule": true,     
+    "outDir": "lib",
+    "baseUrl": "./",
+    "rootDir": ".", 
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["./src/*"],
+      "@tests/*": ["./tests/*"]
+    },
+    "types": [
+      "jest",
+      "node"
+    ],
+    "removeComments": true
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "lib"]
 }
