@@ -8,53 +8,48 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
-      - name: get current branch name
-        uses: nelonoel/branch-name@v1.0.1
       - name: Stop process if the branch isn't the master
-        # if: endsWith(github.ref, 'dfomin') == false
-        run: |
-          echo github.event.base_ref
-          echo ${github.event.base_ref}
-          echo ${{ github.event.base_ref }}
+        if: endsWith(github.event.base_ref, 'dfomin') == false
+        run: exit 1
   install-dependencies:
     name: install-dependencies
     needs: pre
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: cache dependencies
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-$GITHUB_REF
+          key: node_modules-${{ github.ref_name }}
   build:
     name: build
     needs: install-dependencies
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: load cache
+      - name: Load cache
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-$GITHUB_REF
-      - name: build from source
+          key: node_modules-${{ github.ref_name }}
+      - name: Build from source
         run: yarn build:prod
   change-package:
     needs: install-dependencies
     name: change-package
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: run change package script
+      - name: Run change package script
         run: |
           echo $GITHUB_REF
+          TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
           ls -la
           cat package.json
 
-        # TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
