@@ -10,9 +10,9 @@ const coverage = require('../coverage/coverage-summary.json');
   }
 
   console.log('\n\x1b[31mUnit tests coverage\x1b[0m\n');
-  console.log(prepareData('Lines       ', total.lines));
-  console.log(prepareData('Functions   ', total.functions));
-  console.log(prepareData('Branches    ', total.branches));
+  console.log(prepareData('Lines:      ', total.lines));
+  console.log(prepareData('Functions:  ', total.functions));
+  console.log(prepareData('Branches:   ', total.branches));
   console.log(prepareData('Statements: ', total.statements));
   console.log();
 })();
