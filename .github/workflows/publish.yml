@@ -8,8 +8,9 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
-      - name: Stop process if the branch isn't the master
+      - name: get current branch name
         uses: nelonoel/branch-name@v1.0.1
+      - name: Stop process if the branch isn't the master
         # if: endsWith(github.ref, 'dfomin') == false
         run: echo ${BRANCH_NAME}
   install-dependencies:
