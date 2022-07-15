@@ -39,13 +39,13 @@ jobs:
           key: node_modules-${{ github.ref_name }}
       - name: Build from source
         run: yarn build:prod
-      - name: Cache dependencies
+      - name: Cache build files
         uses: actions/cache@v3
         with:
           path: lib
           key: lib-${{ github.ref_name }}
   change-package:
-    needs: install-dependencies
+    needs: build
     name: change-package
     runs-on: ubuntu-latest
     steps:
@@ -58,8 +58,30 @@ jobs:
           key: node_modules-${{ github.ref_name }}
       - name: Run change package script
         run: |
-          echo ${GITHUB_REF#refs/tags/}
           TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
+      - name: Cache package
+        uses: actions/cache@v3
+        with:
+          path: package.json
+          key: package-${{ github.ref_name }}
+  publish-package:
+    needs: change-package
+    name: publish-package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load build cache
+        uses: actions/cache@v3
+        with:
+          path: lib
+          key: lib-${{ github.ref_name }}
+      - name: Load package cache
+        uses: actions/cache@v3
+        with:
+          path: package.json
+          key: package-${{ github.ref_name }}
+      - name: Publish into npm
+        run: |
           ls -la
           cat package.json
-
