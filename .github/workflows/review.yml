@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-${{ github.ref_name }}
+          key: node_modules-${GITHUB_SHA}
       - name: Lint code
         run: yarn lint
   types:
@@ -41,7 +41,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-${{ github.ref_name }}
+          key: node_modules-${GITHUB_SHA}
       - name: Run typechecking
         run: yarn types
   test:
@@ -54,6 +54,6 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: node_modules-${{ github.ref_name }}
+          key: node_modules-${GITHUB_SHA}
       - name: Run unit tests
         run: yarn test
