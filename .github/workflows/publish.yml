@@ -47,8 +47,9 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v3
       - name: run change package script
-        - run: echo $GITHUB_REF
-        # - run: TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
-        - run: ls -la
-        - run: cat package.json
+        run: |
+          echo $GITHUB_REF
+          ls -la
+          cat package.json
 
+        # TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
