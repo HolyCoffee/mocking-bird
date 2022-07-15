@@ -1,0 +1,32 @@
+name: publish
+on:
+  push:
+    branches:
+      - dfomin
+    tags:
+      - '*'
+jobs:
+  install-dependencies:
+    name: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - name: yarn install
+      run: yarn install --frozen-lockfile
+  build:
+    name: build
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - name: run esbuild
+      run: yarn build:prod
+  change-package:
+    needs: install-dependencies
+    name: change-package
+    runs-on: ubuntu-latest
+    steps:
+    - name: run change package script
+      run: echo $GITHUB_REF
+      # run: TAG_VERSION=$GITHUB_REF node ./scripts/change-package.js
+      run: ls -la
+      run: cat package.json
+
