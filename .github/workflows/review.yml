@@ -1,0 +1,59 @@
+name: review
+on:
+  pull_request:
+    branches:
+      - master
+    type: opened
+jobs:
+  install-dependencies:
+    name: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: yarn install
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${GITHUB_SHA}
+  lint:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${GITHUB_SHA}
+      - name: Lint code
+        run: yarn lint
+  types:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${GITHUB_SHA}
+      - name: Run typechecking
+        run: yarn types
+  test:
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${GITHUB_SHA}
+      - name: Run unit tests
+        run: yarn test

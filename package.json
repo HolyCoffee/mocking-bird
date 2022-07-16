@@ -1,6 +1,5 @@
 {
   "name": "mocking-bird",
-  "version": "1.0.0",
   "description": "It's a service for generating mock data from typescript interfaces",
   "homepage": "https://github.com/HolyCoffee/mocking-bird/tree/master#readme",
   "bugs": {
