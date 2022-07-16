@@ -1,4 +1,4 @@
-name: publish
+name: review
 on:
   pull_request:
     branches:
@@ -56,6 +56,4 @@ jobs:
           path: node_modules
           key: node_modules-${GITHUB_SHA}
       - name: Run unit tests
-        run: |
-          yarn test
-          node ./scripts/log-coverage.js
+        run: yarn test
