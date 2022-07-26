@@ -8,44 +8,62 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
       - name: Stop process if the branch isn't the master
         if: endsWith(github.event.base_ref, 'dfomin') == false
         run: exit 1
       - name: Install dependencies
         run: yarn install
-      - name: Load save cache action
-        uses: ./.github/actions/save-cache.yml
+      - name: Cache project
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
   build:
     name: build
     needs: pre
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-      - name: Load get cache action
-        uses: ./.github/actions/get-cache.yml
+      - name: Get project cache
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
       - name: Build from source
         run: yarn build:prod
-      - name: Load save cache action
-        uses: ./.github/actions/save-cache.yml
+      - name: Cache project
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
   change-package:
     name: change-package
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - name: Get project cache
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Run change package script
         run: TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
-      - name: Load save cache action
-        uses: ./.github/actions/save-cache.yml
+      - name: Cache project
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
   publish-package:
     name: publish-package
     needs: change-package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
+      - name: Get project cache
+        uses: actions/cache@v2
+          with:
+            path: .
+            key: package-${{ github.ref_name }}
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Publish into npm
