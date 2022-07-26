@@ -1,6 +1,7 @@
 name: Get project from cache
 runs:
   steps:
+    - uses: actions/checkout@v2
     - name: Cache project
       uses: actions/cache@v2
         with:

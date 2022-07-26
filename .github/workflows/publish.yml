@@ -8,7 +8,6 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Stop process if the branch isn't the master
         if: endsWith(github.event.base_ref, 'dfomin') == false
         run: exit 1
@@ -21,7 +20,6 @@ jobs:
     needs: pre
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Build from source
@@ -33,7 +31,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Run change package script
@@ -45,7 +42,6 @@ jobs:
     needs: change-package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Publish into npm
