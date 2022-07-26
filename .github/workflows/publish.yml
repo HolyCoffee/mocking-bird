@@ -13,10 +13,11 @@ jobs:
         run: exit 1
       - name: Install dependencies
         run: yarn install
+      - run: ls -la
       - name: Cache project
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
   build:
     name: build
