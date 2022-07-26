@@ -18,7 +18,7 @@ jobs:
       - name: Cache project
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
   build:
     name: build
@@ -28,7 +28,7 @@ jobs:
       - name: Get project cache
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
       - run: ls -la
       - name: Build from source
@@ -36,7 +36,7 @@ jobs:
       - name: Cache project
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
   change-package:
     name: change-package
@@ -46,14 +46,14 @@ jobs:
       - name: Get project cache
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
       - name: Run change package script
         run: TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
       - name: Cache project
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
   publish-package:
     name: publish-package
@@ -63,7 +63,7 @@ jobs:
       - name: Get project cache
         uses: actions/cache@v3
         with:
-          path: .
+          path: ./*
           key: project-${{ github.ref_name }}
       - name: Publish into npm
         run: |
