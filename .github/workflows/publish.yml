@@ -15,9 +15,9 @@ jobs:
         run: yarn install
       - name: Cache project
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
   build:
     name: build
     needs: pre
@@ -25,16 +25,16 @@ jobs:
     steps:
       - name: Get project cache
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
       - name: Build from source
         run: yarn build:prod
       - name: Cache project
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
   change-package:
     name: change-package
     needs: build
@@ -42,18 +42,18 @@ jobs:
     steps:
       - name: Get project cache
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Run change package script
         run: TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
       - name: Cache project
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
   publish-package:
     name: publish-package
     needs: change-package
@@ -61,9 +61,9 @@ jobs:
     steps:
       - name: Get project cache
         uses: actions/cache@v2
-          with:
-            path: .
-            key: package-${{ github.ref_name }}
+        with:
+          path: .
+          key: package-${{ github.ref_name }}
       - name: Load get cache action
         uses: ./.github/actions/get-cache.yml
       - name: Publish into npm
