@@ -22,7 +22,7 @@ jobs:
           path: .
   build:
     name: build
-    needs: install-dependencies
+    needs: pre
     runs-on: ubuntu-latest
     steps:
       - name: Get project
