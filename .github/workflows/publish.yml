@@ -8,6 +8,7 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Stop process if the branch isn't the master
         if: endsWith(github.event.base_ref, 'dfomin') == false
         run: exit 1
@@ -17,7 +18,7 @@ jobs:
       - name: Cache project
         uses: actions/cache@v3
         with:
-          path: ./*
+          path: .
           key: project-${{ github.ref_name }}
   build:
     name: build
