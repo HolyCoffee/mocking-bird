@@ -1,9 +1,0 @@
-name: Save project into cache
-runs:
-  steps:
-    - uses: actions/checkout@v2
-    - name: Cache project
-      uses: actions/cache@v2
-        with:
-          path: .
-          key: package-${{ github.ref_name }}

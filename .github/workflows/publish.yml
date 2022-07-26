@@ -8,68 +8,80 @@ jobs:
     name: pre
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Stop process if the branch isn't the master
-        if: endsWith(github.event.base_ref, 'dfomin') == false
+        if: endsWith(github.event.base_ref, 'master') == false
         run: exit 1
-      - name: Install dependencies
-        run: yarn install
-      - run: ls -la
-      - name: Cache project
-        uses: actions/cache@v3
-        with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v1
-  build:
-    name: build
+  install-dependencies:
+    name: install-dependencies
     needs: pre
     runs-on: ubuntu-latest
     steps:
-      - name: Get project cache
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: yarn install
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v1
-      - run: ls -la
+          path: node_modules
+          key: node_modules-${{ github.ref_name }}
+  build:
+    name: build
+    needs: install-dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${{ github.ref_name }}
       - name: Build from source
         run: yarn build:prod
-      - name: Cache project
+      - name: Cache build files
         uses: actions/cache@v3
         with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v2
+          path: lib
+          key: lib-${{ github.ref_name }}
   change-package:
-    name: change-package
     needs: build
+    name: change-package
     runs-on: ubuntu-latest
     steps:
-      - name: Get project cache
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load cache
         uses: actions/cache@v3
         with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v2
+          path: node_modules
+          key: node_modules-${{ github.ref_name }}
       - name: Run change package script
-        run: TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
-      - name: Cache project
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/} node ./scripts/change-package.js
+      - name: Cache package
         uses: actions/cache@v3
         with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v3
+          path: package.json
+          key: package-${{ github.ref_name }}
   publish-package:
-    name: publish-package
     needs: change-package
+    name: publish-package
     runs-on: ubuntu-latest
     steps:
-      - name: Get project cache
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Load build cache
         uses: actions/cache@v3
         with:
-          path: ./*
-          key: project-${{ github.ref_name }}-v3
+          path: lib
+          key: lib-${{ github.ref_name }}
+      - name: Load package cache
+        uses: actions/cache@v3
+        with:
+          path: package.json
+          key: package-${{ github.ref_name }}
       - name: Publish into npm
-        run: |
-          ls -la
-          cat package.json
+        run: yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-        # yarn publish --access public
