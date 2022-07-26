@@ -28,6 +28,7 @@ jobs:
         with:
           path: .
           key: project-${{ github.ref_name }}
+      - run: ls -la
       - name: Build from source
         run: yarn build:prod
       - name: Cache project
